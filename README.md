@@ -1,39 +1,193 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+**Flutter DropdownSearchList**
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
+Simple and robust dropdown search list widget package for flutter.
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Create easy to manage dropdown scrollable search list.
+Feature to let the user search through a keyword string which finds matching items using the fuzzy search and then show the items.
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+**pubspec.yaml**
 
 ```dart
-const like = 'sample';
+dependencies:
+  dropdown_search_list: ^0.0.1
 ```
 
-## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+## Example
+
+<h1 style="color: #80aaff">lib/main.dart</h1>
+
+```dart
+import 'package:dropdown_searchable_list/home.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    BoxDecoration decoration = BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          width: 4,
+          color: Colors.black,
+          style: BorderStyle.solid,
+        ));
+
+    List<String> items = [
+      'Bicycling, Competitive',
+      'Bicycling Uphill',
+      'Bicycle Race',
+      'Mountain Biking',
+
+    ];
+
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: HomePage(
+        items: items,
+        dropdownListButtonHeight: 50,
+        dropdownListButtonWidth: 400,
+        dropdownListButtonDecoration: decoration,
+        dropdownListButtonInitialText: 'Select',
+      ),
+    );
+  }
+}
+
+```
+
+<h1 style="color: #80aaff">lib/list_state.dart</h1>
+
+```dart
+
+import 'package:flutter/cupertino.dart';
+
+class ListState extends ChangeNotifier {
+  late bool open;
+  late String selection;
+  late List<String> items;
+
+  bool get getOpen {
+    return open;
+  }
+
+  set setOpen(bool open) {
+    this.open = open;
+    notifyListeners();
+  }
+
+  String get getSelection {
+    return selection;
+  }
+
+  set setSelection(String selection) {
+    this.selection = selection;
+    notifyListeners();
+  }
+
+  List<String> get getItems {
+    return items;
+  }
+
+  set setItems(List<String> items) {
+    this.items = items;
+    notifyListeners();
+  }
+
+  set addItems(String item) {
+    items.add(item);
+    notifyListeners();
+  }
+
+  ListState(this.open, this.selection, this.items);
+
+}
+
+```
+
+
+<h1 style="color: #80aaff">lib/home.dart</h1>
+
+```dart
+import 'package:dropdown_search_list/dropdown_search_list.dart';
+import 'package:flutter/material.dart';
+
+class HomePage extends StatefulWidget {
+  final List<String> items;
+  final double? dropdownListButtonHeight;
+  final double? dropdownListButtonWidth;
+  final BoxDecoration? dropdownListButtonDecoration;
+  final Icon dropdownListButtonIcon;
+  final String dropdownListButtonInitialText;
+
+  const HomePage({
+    Key? key,
+    required this.items,
+    this.dropdownListButtonHeight,
+    this.dropdownListButtonWidth,
+    this.dropdownListButtonDecoration,
+    this.dropdownListButtonIcon = const Icon(Icons.arrow_downward),
+    required this.dropdownListButtonInitialText,
+  }) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String selectedData = "Nothing selected";
+
+  @override
+  Widget build(BuildContext context) {
+
+    updateText(String value){
+      setState(() {
+        selectedData = value;
+        print("Updating text data " + selectedData);
+      });
+    }
+
+    return Scaffold(
+      // resizeToAvoidBottomInset: false,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(selectedData),
+            Container(
+              width: 300,
+              height: 50,
+              child: DropdownSearchList(
+                items: widget.items,
+                dropdownListButtonInitialText: "Please select any option",
+                dropdownListButtonDecoration: widget.dropdownListButtonDecoration,
+                dropdownListButtonWidth: widget.dropdownListButtonWidth,
+                dropdownListButtonHeight: widget.dropdownListButtonHeight,
+                dropdownListButtonIcon: Icon(Icons.arrow_drop_down),
+                dropdownListWidth: 500,
+                dropdownListShadowColor: Colors.grey,
+                dropdownListColor: Colors.grey.shade200,
+                onSelect: (value) => updateText(value),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
