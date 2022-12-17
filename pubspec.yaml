@@ -1,7 +1,8 @@
 name: dropdown_search_list
 description: A dropdown search list widget
 version: 0.0.1
-homepage:
+homepage: "https://github.com/sumitskj/dropdownSearchList"
+repository: "https://github.com/sumitskj/dropdownSearchList"
 
 environment:
   sdk: '>=2.18.5 <3.0.0'
