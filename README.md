@@ -194,3 +194,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 ```
+
+<p>
+Follow our blogs on Flutter : https://blog.toptime.club
+Want to Interact with an influencer, book call at : https://www.toptime.club/
+</p>
