@@ -196,6 +196,6 @@ class _HomePageState extends State<HomePage> {
 ```
 
 <p>
-Follow our blogs on Flutter : https://blog.toptime.club
-Want to Interact with an influencer, book call at : https://www.toptime.club/
+Follow our blogs on Flutter : <a href="https://blog.toptime.club">Blog TopTime</a>
+Want to Interact with an influencer, book call at : <a href="https://www.toptime.club/">TopTime</a>
 </p>
